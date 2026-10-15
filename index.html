@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Ayushi ❤️ Happy (Late) Birthday</title>
+    <link rel="stylesheet" href="css/stars.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+</head>
+<body>
+
+    <!-- Twinkling Starry Canvas Background -->
+    <div id="stars-bg" class="stars-bg"></div>
+
+    <!-- Floating Vintage Vinyl Player Widget -->
+    <div class="music-player-widget" id="music-widget">
+        <div class="vinyl-disc" id="vinyl-disc"></div>
+        <div class="music-info">
+            <span class="music-title">Rehbara 🎵</span>
+            <span class="music-sub">Ayushi's Track</span>
+        </div>
+        <button class="music-btn" id="music-toggle-btn" title="Play/Pause Music">▶</button>
+    </div>
+
+    <!-- Main Application Flow -->
+    <main id="app-container">
+
+        <!-- SCREEN 1: THE GATEKEEPER -->
+        <section class="screen active" id="screen-1">
+            <div class="glass-card">
+                <div class="badge-tag">🔒 Security Verification</div>
+                <div class="sticker-box">
+                    <img src="https://media1.tenor.com/m/4ELCHnNVSqAAAAAC/cute-cha-pri.gif" alt="Cute Greeting">
+                </div>
+                <h1 class="card-title">Identify Yourself... <span>👀</span></h1>
+                <p class="card-desc">
+                    Are you <strong>Ayushi</strong>—the girl who loves to dance, who is slightly shorter than me, and who officially stole my heart all over again?
+                </p>
+                <div class="btn-group">
+                    <button class="btn-primary" id="btn-yes" onclick="window.app.goToScreen(2)">
+                        Yes, obviously! 🥰
+                    </button>
+                    <button class="btn-secondary" id="btn-nope">
+                        Nope 🏃‍♀️
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: THE APOLOGY & THE TIMELINE -->
+        <section class="screen" id="screen-2">
+            <div class="glass-card">
+                <div class="badge-tag">🐘 The Elephant in the Room</div>
+                <div class="sticker-box">
+                    <img src="https://media.tenor.com/SFy5Za0DyMEAAAAi/erm-fingers.gif" alt="Nervous fingers">
+                </div>
+                <h2 class="card-title">Now for the real question... <span>💭</span></h2>
+                <p class="card-desc">
+                    Your birthday was on <strong>August 20th</strong>. It took us 3 years apart to realize we belong together, so... do you forgive your boyfriend for celebrating late now that we are officially back together?
+                </p>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="window.app.handleForgivenessChoice('forgiven')">
+                        You're forgiven 🥺❤️
+                    </button>
+                    <button class="btn-secondary" onclick="window.app.handleForgivenessChoice('compensation')">
+                        Compensation Required 😤💃
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: TERMS OF FORGIVENESS -->
+        <section class="screen" id="screen-3">
+            <div class="glass-card">
+                <div class="badge-tag">📜 Official Reconciliation Contract</div>
+                <h2 class="card-title">Terms of <span>Our Fresh Start</span> ✨</h2>
+                <p class="card-desc">By entering, the user (Ayushi) hereby ratifies the following non-negotiable clauses:</p>
+
+                <div class="checklist-container">
+                    <div class="check-item checked">
+                        <div class="custom-checkbox">✔</div>
+                        <span class="check-text"><strong>Dance Clause:</strong> Ritvik is bound to be your personal 24/7 audience & dancing partner.</span>
+                    </div>
+                    <div class="check-item checked">
+                        <div class="custom-checkbox">✔</div>
+                        <span class="check-text"><strong>Height Privilege:</strong> Looking up at me means mandatory forehead kisses on demand.</span>
+                    </div>
+                    <div class="check-item checked">
+                        <div class="custom-checkbox">✔</div>
+                        <span class="check-text"><strong>Lost Time Policy:</strong> 3 years apart means 3x the pampering, midnight snacks, and back hugs.</span>
+                    </div>
+                    <div class="check-item checked">
+                        <div class="custom-checkbox">✔</div>
+                        <span class="check-text"><strong>Birthday Extension:</strong> August 20th is no longer just one day—it is celebrated 365 days a year.</span>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="window.app.goToScreen(4)">
+                        I Agree, Unlock The Vault 🗝️
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: THE LOVE VAULT (QUEST HUB) -->
+        <section class="screen" id="screen-4">
+            <div class="glass-card">
+                <div class="badge-tag">🔐 Restricted Vault</div>
+                <h2 class="card-title">The Birthday <span>Love Vault</span> 🎁</h2>
+                <p class="card-desc">Your surprise is sealed inside. Complete both quick challenges to earn the 2 keys and crack the safe!</p>
+
+                <div class="vault-door" id="vault-door">
+                    <div class="vault-slots">
+                        <!-- Key Slot 1 -->
+                        <div class="key-slot-card" id="key-slot-1" onclick="window.gamesEngine.startCatchGame()">
+                            <div class="slot-icon">🔒</div>
+                            <div class="slot-name">Dance Keepsakes</div>
+                            <div class="slot-status">Tap to Play (Game 1)</div>
+                        </div>
+
+                        <!-- Key Slot 2 -->
+                        <div class="key-slot-card" id="key-slot-2" onclick="window.gamesEngine.openScratchModal()">
+                            <div class="slot-icon">🔒</div>
+                            <div class="slot-name">Secret Scratch</div>
+                            <div class="slot-status">Tap to Scratch (Game 2)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn-secondary" id="btn-open-vault" disabled onclick="window.app.unlockLoveVault()">
+                        Collect Both Keys to Open 🔒
+                    </button>
+                </div>
+                <p style="margin-top: 14px; font-size: 0.78rem; color: #b89db0; cursor: pointer; text-decoration: underline;" onclick="window.gamesEngine.key1Unlocked=true; window.gamesEngine.key2Unlocked=true; window.gamesEngine.checkVaultReady(); window.app.unlockLoveVault();">
+                    (Ayushi VIP Pass: Tap here to unlock vault directly 🗝️)
+                </p>
+            </div>
+        </section>
+
+        <!-- SCREEN 5: MEMORY LANE (OUR 3 SACRED POLAROIDS) -->
+        <section class="screen" id="screen-5">
+            <div class="glass-card" style="max-width: 900px;">
+                <div class="badge-tag">📸 Our Sacred Chapter</div>
+                <h2 class="card-title">The Three <span>Polaroids</span> 💫</h2>
+                <p class="card-desc">
+                    We lost the old photos during those 3 years apart... but these three are the sacred first pages of our forever chapter. <em>(Tap each polaroid to flip and read)</em>
+                </p>
+
+                <div class="polaroids-container">
+                    <!-- Polaroid 1: School Selfie -->
+                    <div class="polaroid-card" onclick="window.app.togglePolaroid(this)">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-tape"></div>
+                            <div class="polaroid-img-box">
+                                <img src="assets/images/photo1.jpg" alt="School memories">
+                            </div>
+                            <div class="polaroid-caption">Where It All Began 🌱</div>
+                        </div>
+                        <div class="polaroid-face polaroid-back">
+                            <div class="polaroid-back-date">The High School Spark</div>
+                            <div class="polaroid-back-text">
+                                "Even back in school uniforms and corridors, you had that spark. So much time has passed, but seeing you smile still makes my heart skip a beat."
+                            </div>
+                            <div class="flip-hint">↺ Tap to flip</div>
+                        </div>
+                    </div>
+
+                    <!-- Polaroid 2: Arcade / Reunion -->
+                    <div class="polaroid-card" onclick="window.app.togglePolaroid(this)">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-tape"></div>
+                            <div class="polaroid-img-box">
+                                <img src="assets/images/photo2.png" alt="First date back together">
+                            </div>
+                            <div class="polaroid-caption">Our Reunion ✨</div>
+                        </div>
+                        <div class="polaroid-face polaroid-back">
+                            <div class="polaroid-back-date">Walking Side By Side</div>
+                            <div class="polaroid-back-text">
+                                "The day we walked side by side again. Hearing you laugh, watching you look up at me... that was the moment I knew our story wasn't over. It was just beginning."
+                            </div>
+                            <div class="flip-hint">↺ Tap to flip</div>
+                        </div>
+                    </div>
+
+                    <!-- Polaroid 3: Solo Gorgeous Ayushi -->
+                    <div class="polaroid-card" onclick="window.app.togglePolaroid(this)">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-tape"></div>
+                            <div class="polaroid-img-box">
+                                <img src="assets/images/photo3.jpg" alt="Ayushi's gorgeous smile">
+                            </div>
+                            <div class="polaroid-caption">My Favorite View 💖</div>
+                        </div>
+                        <div class="polaroid-face polaroid-back">
+                            <div class="polaroid-back-date">Effortlessly Beautiful</div>
+                            <div class="polaroid-back-text">
+                                "Glasses, resting your chin on your hand, dancing around or just talking—you are the most wonderful, pure-hearted soul I've ever known."
+                            </div>
+                            <div class="flip-hint">↺ Tap to flip</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group" style="margin-top: 20px;">
+                    <button class="btn-primary" onclick="window.app.goToScreen(6)">
+                        Open My Letter For You 💌
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 6: WAX-SEALED LETTER -->
+        <section class="screen" id="screen-6">
+            <div class="glass-card">
+                <div class="badge-tag">💌 Sealed With Love</div>
+                <h2 class="card-title">A Letter For <span>Ayushi</span></h2>
+                <p class="card-desc">Tap the wax seal below to break it open and read what's inside...</p>
+
+                <!-- 3D Wax Envelope -->
+                <div class="envelope-wrapper" id="envelope-wrapper">
+                    <div class="envelope-body">
+                        <div class="wax-seal" id="wax-seal-btn" title="Tap to break seal">A</div>
+                    </div>
+                </div>
+
+                <!-- Unfolded Letter Parchment -->
+                <div class="letter-parchment" id="letter-parchment">
+                    <div class="letter-header">Dearest Ayushi,</div>
+                    <div class="letter-body" id="letter-body-text"></div>
+                    <div class="letter-signature">— Ritvik ❤️</div>
+                </div>
+
+                <div class="btn-group" style="margin-top: 24px;">
+                    <button class="btn-primary" id="btn-to-vouchers" style="display: none;" onclick="window.app.goToScreen(7)">
+                        Claim Your Birthday Vouchers 🎟️
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 7: REDEEMABLE LOVE VOUCHERS -->
+        <section class="screen" id="screen-7">
+            <div class="glass-card" style="max-width: 680px;">
+                <div class="badge-tag">🎟️ VIP Boyfriend Vouchers</div>
+                <h2 class="card-title">Your Birthday <span>Love Passes</span> 💖</h2>
+                <p class="card-desc">Tap any voucher to redeem it immediately. It will notify Ritvik on WhatsApp so he can deliver!</p>
+
+                <div class="vouchers-grid">
+                    <!-- Voucher 1 -->
+                    <div class="voucher-ticket" data-title="Midnight Food Run" data-msg="Hey Ritvik! I am officially redeeming my Midnight Food Run voucher right now. Get ready! 😋🍕">
+                        <div class="voucher-left">
+                            <div class="voucher-icon">🍦</div>
+                            <div class="voucher-info">
+                                <h4>Midnight Food & Dessert Run</h4>
+                                <p>Valid at 2:00 AM. Zero questions asked, fully sponsored by Ritvik.</p>
+                            </div>
+                        </div>
+                        <button class="voucher-btn">Redeem 🎟️</button>
+                        <div class="voucher-stamp">CLAIMED</div>
+                    </div>
+
+                    <!-- Voucher 2 -->
+                    <div class="voucher-ticket" data-title="Supreme Argument Winner" data-msg="Babe, you have to admit I am right! I just redeemed my Supreme Argument Winner voucher 😇🏆">
+                        <div class="voucher-left">
+                            <div class="voucher-icon">👑</div>
+                            <div class="voucher-info">
+                                <h4>The Supreme Argument Winner</h4>
+                                <p>Instantly win any debate or disagreement. Ritvik must concede immediately.</p>
+                            </div>
+                        </div>
+                        <button class="voucher-btn">Redeem 🎟️</button>
+                        <div class="voucher-stamp">CLAIMED</div>
+                    </div>
+
+                    <!-- Voucher 3 -->
+                    <div class="voucher-ticket" data-title="VIP Date Night & Dance Pass" data-msg="Pack your bags, date night is on you! Just redeemed my VIP Date & Dance voucher ❤️✨">
+                        <div class="voucher-left">
+                            <div class="voucher-icon">💃</div>
+                            <div class="voucher-info">
+                                <h4>VIP Date Night & Dance Pass</h4>
+                                <p>Planned, curated, and funded entirely by me. You just show up looking gorgeous.</p>
+                            </div>
+                        </div>
+                        <button class="voucher-btn">Redeem 🎟️</button>
+                        <div class="voucher-stamp">CLAIMED</div>
+                    </div>
+
+                    <!-- Voucher 4 -->
+                    <div class="voucher-ticket" data-title="Infinite Hugs & Pampering" data-msg="Calling in my unlimited cuddles and forehead kisses pass right now! 🥰🫂">
+                        <div class="voucher-left">
+                            <div class="voucher-icon">🫂</div>
+                            <div class="voucher-info">
+                                <h4>Infinite Hugs & Pampering</h4>
+                                <p>Non-expiring pass for unlimited cuddles, forehead kisses, and hair pats.</p>
+                            </div>
+                        </div>
+                        <button class="voucher-btn">Redeem 🎟️</button>
+                        <div class="voucher-stamp">CLAIMED</div>
+                    </div>
+                </div>
+
+                <div class="btn-group" style="margin-top: 14px;">
+                    <button class="btn-secondary" onclick="window.app.goToScreen(5)">
+                        ↺ Back to Our Photos
+                    </button>
+                    <button class="btn-primary" onclick="window.app.triggerFireworks(); window.app.showToast('Happy Birthday Ayushi! You mean the world to me ❤️');">
+                        Celebrate With Fireworks 🎆
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL 1: CATCH THE KEEPSAKES GAME -->
+    <div class="modal-overlay" id="game1-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="window.gamesEngine.closeCatchGame()">×</button>
+            <h3 style="color: var(--primary); font-size: 1.3rem; margin-bottom: 4px;">Catch The Keepsakes 💃</h3>
+            <p style="font-size: 0.84rem; color: var(--text-muted);">
+                Move basket with your mouse or finger! Catch dance shoes, hearts & coffee. Avoid broken clocks ⏰!
+            </p>
+            <div class="game-hud">
+                <span>Score: <strong id="game1-score">0 / 5</strong></span>
+                <span style="color: var(--gold);">Target: 5</span>
+            </div>
+            <canvas id="game-canvas"></canvas>
+        </div>
+    </div>
+
+    <!-- MODAL 2: SCRATCH CARD GAME -->
+    <div class="modal-overlay" id="scratch-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="window.gamesEngine.closeScratchModal()">×</button>
+            <h3 style="color: var(--gold); font-size: 1.3rem; margin-bottom: 4px;">Secret Scratch-Off ✨</h3>
+            <p style="font-size: 0.84rem; color: var(--text-muted);">
+                Scratch off the silver foil using your mouse or finger to uncover the secret memory!
+            </p>
+            <div class="scratch-card-wrapper">
+                <div class="scratch-secret">
+                    <h4>August 20th Forever 💖</h4>
+                    <p>"Some people search their whole lives. I found my way back to you. You are my forever."</p>
+                    <div style="margin-top: 8px; font-weight: 700; color: var(--gold);">🔑 Key 2 Granted!</div>
+                </div>
+                <canvas id="scratch-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div class="toast-notice" id="toast-notice">Notice</div>
+
+    <!-- Libraries -->
+    <script src="js/particles.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
