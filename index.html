@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For Ayushi ❤️ Happy (Late) Birthday</title>
-    <link rel="stylesheet" href="css/stars.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
 </head>
 <body>
 
-    <!-- Twinkling Starry Canvas Background -->
-    <div id="stars-bg" class="stars-bg"></div>
+    <!-- Fixed Twinkling Starfield Background -->
+    <div id="stars-bg"></div>
 
     <!-- Floating Vintage Vinyl Player Widget -->
     <div class="music-player-widget" id="music-widget">
@@ -48,14 +47,102 @@
             </div>
         </section>
 
-        <!-- SCREEN 2: THE APOLOGY & THE TIMELINE -->
+        <!-- SCREEN 2: TEASING QUESTION 1 -->
         <section class="screen" id="screen-2">
+            <div class="glass-card">
+                <div class="badge-tag">🌟 Teasing Phase • Step 1</div>
+                <div class="sticker-box">
+                    <img src="https://media.tenor.com/11077459203016750429/bubu-cute-bubu-adorable.gif" alt="Thinking Bear">
+                </div>
+                <h2 class="card-title">Pop Quiz, Ayushi... <span>🤔</span></h2>
+                <p class="card-desc">
+                    Do you remember the exact moment and day we first met? ✨
+                </p>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="window.app.goToScreen(3)">
+                        Yes, every second 💕
+                    </button>
+                    <button class="btn-secondary" onclick="window.app.goToScreen('screen-2-roast')">
+                        Hehe bhul gayi 😋
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2-ROAST: ROAST FOR QUESTION 1 -->
+        <section class="screen" id="screen-2-roast">
+            <div class="glass-card">
+                <div class="badge-tag">🤦‍♂️ Typical Ayushi Moment</div>
+                <div class="sticker-box">
+                    <img src="https://media.tenor.com/3117522263724372729/dudu-cute-smile-photo.gif" alt="Playful smile">
+                </div>
+                <h2 class="card-title">Really? <span>😅</span></h2>
+                <div class="roast-box">
+                    <div class="roast-quote">"Haan waise bhi padhai to yaad rehti nahi, ye kya yaad rahega!"</div>
+                    <div class="roast-sub">
+                        But I remember every single detail... the way you smiled, how everything felt so right. Kya karun, achi memory ka shraap mila hai 😌
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="window.app.goToScreen(3)">
+                        Accha fine, Continue 💕
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: TEASING QUESTION 2 -->
+        <section class="screen" id="screen-3">
+            <div class="glass-card">
+                <div class="badge-tag">💭 Teasing Phase • Step 2</div>
+                <div class="sticker-box">
+                    <img src="https://media.tenor.com/9014317078479265106/amor.gif" alt="Curious love">
+                </div>
+                <h2 class="card-title">Now be 100% honest... <span>👀</span></h2>
+                <p class="card-desc">
+                    In those 3 years we spent apart, how many times did you miss me?
+                </p>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="window.app.showToast('I knew it! My heart was doing the exact same thing 💕'); setTimeout(() => window.app.goToScreen(4), 1000);">
+                        Every single day 🥺💗
+                    </button>
+                    <button class="btn-secondary" onclick="window.app.goToScreen('screen-3-roast')">
+                        Bilkul nahi, full aish kar rahi thi 💅
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3-ROAST: ROAST FOR QUESTION 2 -->
+        <section class="screen" id="screen-3-roast">
+            <div class="glass-card">
+                <div class="badge-tag">🤥 Caught in 4K</div>
+                <div class="sticker-box">
+                    <img src="https://media.tenor.com/9416907124707220815/mitao-cat.gif" alt="Playful cat">
+                </div>
+                <h2 class="card-title">Jhoothi! <span>🤥</span></h2>
+                <div class="roast-box">
+                    <div class="roast-quote">"Itna bada jhooth toh Bollywood movies me bhi nahi chalta!"</div>
+                    <div class="roast-sub">
+                        You know you missed having someone to show your dance moves to, someone to look up at, and someone to pamper you 24/7! Don't worry, your secret is safe with me 😋
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="window.app.goToScreen(4)">
+                        Hahaha, Continue 💕
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: THE APOLOGY & THE TIMELINE -->
+        <section class="screen" id="screen-4">
             <div class="glass-card">
                 <div class="badge-tag">🐘 The Elephant in the Room</div>
                 <div class="sticker-box">
                     <img src="https://media.tenor.com/SFy5Za0DyMEAAAAi/erm-fingers.gif" alt="Nervous fingers">
                 </div>
-                <h2 class="card-title">Now for the real question... <span>💭</span></h2>
+                <h2 class="card-title">Now for the serious question... <span>💭</span></h2>
                 <p class="card-desc">
                     Your birthday was on <strong>August 20th</strong>. It took us 3 years apart to realize we belong together, so... do you forgive your boyfriend for celebrating late now that we are officially back together?
                 </p>
@@ -70,8 +157,8 @@
             </div>
         </section>
 
-        <!-- SCREEN 3: TERMS OF FORGIVENESS -->
-        <section class="screen" id="screen-3">
+        <!-- SCREEN 5: TERMS OF FORGIVENESS -->
+        <section class="screen" id="screen-5">
             <div class="glass-card">
                 <div class="badge-tag">📜 Official Reconciliation Contract</div>
                 <h2 class="card-title">Terms of <span>Our Fresh Start</span> ✨</h2>
@@ -97,15 +184,15 @@
                 </div>
 
                 <div class="btn-group">
-                    <button class="btn-primary" onclick="window.app.goToScreen(4)">
+                    <button class="btn-primary" onclick="window.app.goToScreen(6)">
                         I Agree, Unlock The Vault 🗝️
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- SCREEN 4: THE LOVE VAULT (QUEST HUB) -->
-        <section class="screen" id="screen-4">
+        <!-- SCREEN 6: THE LOVE VAULT (QUEST HUB) -->
+        <section class="screen" id="screen-6">
             <div class="glass-card">
                 <div class="badge-tag">🔐 Restricted Vault</div>
                 <h2 class="card-title">The Birthday <span>Love Vault</span> 🎁</h2>
@@ -113,14 +200,14 @@
 
                 <div class="vault-door" id="vault-door">
                     <div class="vault-slots">
-                        <!-- Key Slot 1 -->
-                        <div class="key-slot-card" id="key-slot-1" onclick="window.gamesEngine.startCatchGame()">
+                        <!-- Key Slot 1: Love Memory Match -->
+                        <div class="key-slot-card" id="key-slot-1" onclick="window.gamesEngine.startMemoryGame()">
                             <div class="slot-icon">🔒</div>
-                            <div class="slot-name">Dance Keepsakes</div>
+                            <div class="slot-name">Memory Match</div>
                             <div class="slot-status">Tap to Play (Game 1)</div>
                         </div>
 
-                        <!-- Key Slot 2 -->
+                        <!-- Key Slot 2: Secret Scratch Card -->
                         <div class="key-slot-card" id="key-slot-2" onclick="window.gamesEngine.openScratchModal()">
                             <div class="slot-icon">🔒</div>
                             <div class="slot-name">Secret Scratch</div>
@@ -140,8 +227,8 @@
             </div>
         </section>
 
-        <!-- SCREEN 5: MEMORY LANE (OUR 3 SACRED POLAROIDS) -->
-        <section class="screen" id="screen-5">
+        <!-- SCREEN 7: MEMORY LANE (OUR 3 SACRED POLAROIDS) -->
+        <section class="screen" id="screen-7">
             <div class="glass-card" style="max-width: 900px;">
                 <div class="badge-tag">📸 Our Sacred Chapter</div>
                 <h2 class="card-title">The Three <span>Polaroids</span> 💫</h2>
@@ -168,7 +255,7 @@
                         </div>
                     </div>
 
-                    <!-- Polaroid 2: Arcade / Reunion -->
+                    <!-- Polaroid 2: Arcade / Reunion (Cropped!) -->
                     <div class="polaroid-card" onclick="window.app.togglePolaroid(this)">
                         <div class="polaroid-face polaroid-front">
                             <div class="polaroid-tape"></div>
@@ -206,15 +293,15 @@
                 </div>
 
                 <div class="btn-group" style="margin-top: 20px;">
-                    <button class="btn-primary" onclick="window.app.goToScreen(6)">
+                    <button class="btn-primary" onclick="window.app.goToScreen(8)">
                         Open My Letter For You 💌
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- SCREEN 6: WAX-SEALED LETTER -->
-        <section class="screen" id="screen-6">
+        <!-- SCREEN 8: WAX-SEALED LETTER -->
+        <section class="screen" id="screen-8">
             <div class="glass-card">
                 <div class="badge-tag">💌 Sealed With Love</div>
                 <h2 class="card-title">A Letter For <span>Ayushi</span></h2>
@@ -235,15 +322,15 @@
                 </div>
 
                 <div class="btn-group" style="margin-top: 24px;">
-                    <button class="btn-primary" id="btn-to-vouchers" style="display: none;" onclick="window.app.goToScreen(7)">
+                    <button class="btn-primary" id="btn-to-vouchers" style="display: none;" onclick="window.app.goToScreen(9)">
                         Claim Your Birthday Vouchers 🎟️
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- SCREEN 7: REDEEMABLE LOVE VOUCHERS -->
-        <section class="screen" id="screen-7">
+        <!-- SCREEN 9: REDEEMABLE LOVE VOUCHERS -->
+        <section class="screen" id="screen-9">
             <div class="glass-card" style="max-width: 680px;">
                 <div class="badge-tag">🎟️ VIP Boyfriend Vouchers</div>
                 <h2 class="card-title">Your Birthday <span>Love Passes</span> 💖</h2>
@@ -304,7 +391,7 @@
                 </div>
 
                 <div class="btn-group" style="margin-top: 14px;">
-                    <button class="btn-secondary" onclick="window.app.goToScreen(5)">
+                    <button class="btn-secondary" onclick="window.app.goToScreen(7)">
                         ↺ Back to Our Photos
                     </button>
                     <button class="btn-primary" onclick="window.app.triggerFireworks(); window.app.showToast('Happy Birthday Ayushi! You mean the world to me ❤️');">
@@ -316,29 +403,29 @@
 
     </main>
 
-    <!-- MODAL 1: CATCH THE KEEPSAKES GAME -->
+    <!-- MODAL 1: LOVE MEMORY MATCH GAME (Replaced Falling Emoji Game) -->
     <div class="modal-overlay" id="game1-modal">
         <div class="modal-content">
-            <button class="modal-close-btn" onclick="window.gamesEngine.closeCatchGame()">×</button>
-            <h3 style="color: var(--primary); font-size: 1.3rem; margin-bottom: 4px;">Catch The Keepsakes 💃</h3>
+            <button class="modal-close-btn" onclick="window.gamesEngine.closeMemoryGame()">×</button>
+            <h3 style="color: var(--primary); font-size: 1.3rem; margin-bottom: 4px;">Love Memory Match 💖</h3>
             <p style="font-size: 0.84rem; color: var(--text-muted);">
-                Move basket with your mouse or finger! Catch dance shoes, hearts & coffee. Avoid broken clocks ⏰!
+                Find all 3 matching memory pairs to earn Key 1!
             </p>
             <div class="game-hud">
-                <span>Score: <strong id="game1-score">0 / 5</strong></span>
-                <span style="color: var(--gold);">Target: 5</span>
+                <span>Matches: <strong id="memory-score">0 / 3 Pairs</strong></span>
+                <span style="color: var(--gold);">Target: 3</span>
             </div>
-            <canvas id="game-canvas"></canvas>
+            <div class="memory-grid" id="memory-grid"></div>
         </div>
     </div>
 
-    <!-- MODAL 2: SCRATCH CARD GAME -->
+    <!-- MODAL 2: BUTTERY-SMOOTH SCRATCH CARD GAME -->
     <div class="modal-overlay" id="scratch-modal">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="window.gamesEngine.closeScratchModal()">×</button>
             <h3 style="color: var(--gold); font-size: 1.3rem; margin-bottom: 4px;">Secret Scratch-Off ✨</h3>
             <p style="font-size: 0.84rem; color: var(--text-muted);">
-                Scratch off the silver foil using your mouse or finger to uncover the secret memory!
+                Swipe across the rose-gold foil to uncover the secret memory!
             </p>
             <div class="scratch-card-wrapper">
                 <div class="scratch-secret">
@@ -354,7 +441,7 @@
     <!-- Toast Notification Banner -->
     <div class="toast-notice" id="toast-notice">Notice</div>
 
-    <!-- Libraries -->
+    <!-- Scripts -->
     <script src="js/particles.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/games.js"></script>

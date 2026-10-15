@@ -571,15 +571,103 @@ body {
     color: var(--primary);
 }
 
-/* Game 1: Canvas */
-#game-canvas {
-    background: radial-gradient(ellipse at top, #1c0e2a 0%, #0c0514 100%);
-    border: 2px solid rgba(255, 77, 121, 0.4);
+/* Game 1: Memory Match Cards */
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px auto;
+    max-width: 330px;
+    perspective: 800px;
+}
+
+.mem-card {
+    height: 95px;
+    cursor: pointer;
+    perspective: 800px;
+}
+
+.mem-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    border-radius: 14px;
+}
+
+.mem-card.flipped .mem-card-inner, .mem-card.matched .mem-card-inner {
+    transform: rotateY(180deg);
+}
+
+.mem-card-front, .mem-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.mem-card-front {
+    background: linear-gradient(135deg, rgba(255, 77, 121, 0.25) 0%, rgba(201, 24, 74, 0.4) 100%);
+    border: 2px dashed rgba(255, 117, 143, 0.5);
+    color: #ff9ebb;
+    font-size: 1.5rem;
+}
+
+.mem-card-back {
+    background: linear-gradient(135deg, #2c122b 0%, #4a1936 100%);
+    border: 2px solid var(--primary);
+    transform: rotateY(180deg);
+    padding: 6px;
+}
+
+.mem-card.matched .mem-card-back {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #3d2315 0%, #593510 100%);
+    box-shadow: 0 0 16px var(--gold-glow);
+}
+
+.mem-icon {
+    font-size: 1.9rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.mem-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #ffd166;
+    margin-top: 4px;
+}
+
+/* Roast Box Styling */
+.roast-box {
+    background: rgba(255, 77, 121, 0.08);
+    border: 1px solid rgba(255, 77, 121, 0.25);
     border-radius: 16px;
-    display: block;
-    margin: 10px auto;
-    touch-action: none;
-    cursor: crosshair;
+    padding: 16px 18px;
+    margin: 16px 0;
+    text-align: center;
+}
+
+.roast-quote {
+    font-family: var(--font-handwriting);
+    font-size: 1.45rem;
+    color: #ffd166;
+    line-height: 1.4;
+    margin-bottom: 6px;
+}
+
+.roast-sub {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.5;
 }
 
 .game-hud {

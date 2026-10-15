@@ -1,209 +1,148 @@
-// Modern, Zero-Glitch Mini-Games Engine (No file:// CORS issues, High-DPI Canvas)
+// Upgraded Games Engine: 
+// 1. Memory Match Cards (Replaces falling emoji catcher - 100% smooth, interactive & romantic)
+// 2. Silky-Smooth Interpolated Foil Scratcher
 
 class GamesEngine {
     constructor() {
         this.key1Unlocked = false;
         this.key2Unlocked = false;
-        this.game1Running = false;
-        this.game1Score = 0;
-        this.game1Target = 5;
-        this.game1Items = [];
-        this.playerX = 170;
-        this.basketWidth = 72;
-        this.basketHeight = 26;
-        this.animId = null;
 
-        // Scratch card grid tracking (100% immune to file:// getImageData security blocks)
+        // Memory Match state
+        this.memoryCards = [
+            { id: 1, pair: 'A', icon: '💃', title: 'Dance Queen' },
+            { id: 2, pair: 'A', icon: '💃', title: 'Dance Queen' },
+            { id: 3, pair: 'B', icon: '☕', title: 'Boba Date' },
+            { id: 4, pair: 'B', icon: '☕', title: 'Boba Date' },
+            { id: 5, pair: 'C', icon: '💖', title: 'Forever Us' },
+            { id: 6, pair: 'C', icon: '💖', title: 'Forever Us' },
+        ];
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.canFlip = true;
+
+        // Scratch card state
         this.scratchCells = new Set();
-        this.totalRequiredCells = 16; // Out of 48 grid cells
+        this.scratchThreshold = 14; // Quick smooth reveal
+        this.lastX = null;
+        this.lastY = null;
     }
 
     // ==========================================
-    // MINI-GAME 1: DANCE KEEPSAKES RUSH
+    // MINI-GAME 1: LOVE MEMORY MATCH (Replaced Emoji Catcher)
     // ==========================================
-    startCatchGame() {
+    startMemoryGame() {
         const modal = document.getElementById('game1-modal');
-        const canvas = document.getElementById('game-canvas');
-        if (!modal || !canvas) return;
-
+        if (!modal) return;
         modal.classList.add('open');
-        this.game1Score = 0;
-        this.game1Items = [];
-        this.game1Running = true;
-        this.updateHUD();
 
-        const ctx = canvas.getContext('2d');
-        const dpr = window.devicePixelRatio || 1;
-        const rect = canvas.getBoundingClientRect();
-        const displayW = Math.min(340, window.innerWidth - 60);
-        const displayH = 320;
+        this.matchedPairs = 0;
+        this.flippedCards = [];
+        this.canFlip = true;
+        this.renderMemoryBoard();
+    }
 
-        canvas.width = displayW * dpr;
-        canvas.height = displayH * dpr;
-        canvas.style.width = `${displayW}px`;
-        canvas.style.height = `${displayH}px`;
-        ctx.scale(dpr, dpr);
+    closeMemoryGame() {
+        const modal = document.getElementById('game1-modal');
+        if (modal) modal.classList.remove('open');
+    }
 
-        this.playerX = displayW / 2;
+    renderMemoryBoard() {
+        const grid = document.getElementById('memory-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
 
-        const updateBasket = (clientX) => {
-            if (!this.game1Running) return;
-            const cRect = canvas.getBoundingClientRect();
-            const relX = clientX - cRect.left;
-            this.playerX = Math.max(this.basketWidth / 2, Math.min(displayW - this.basketWidth / 2, relX));
-        };
+        // Shuffle cards
+        const shuffled = [...this.memoryCards].sort(() => Math.random() - 0.5);
 
-        this.moveHandler = (e) => updateBasket(e.clientX);
-        this.touchHandler = (e) => {
-            if (e.touches && e.touches[0]) {
-                e.preventDefault();
-                updateBasket(e.touches[0].clientX);
-            }
-        };
+        shuffled.forEach((card, index) => {
+            const cardEl = document.createElement('div');
+            cardEl.className = 'mem-card';
+            cardEl.dataset.pair = card.pair;
+            cardEl.dataset.index = index;
 
-        window.addEventListener('mousemove', this.moveHandler);
-        window.addEventListener('touchmove', this.touchHandler, { passive: false });
+            cardEl.innerHTML = `
+                <div class="mem-card-inner">
+                    <div class="mem-card-front">✨</div>
+                    <div class="mem-card-back">
+                        <span class="mem-icon">${card.icon}</span>
+                        <span class="mem-label">${card.title}</span>
+                    </div>
+                </div>
+            `;
 
-        let lastSpawn = 0;
-        const emojis = ['💃', '💖', '☕', '🎁', '✨'];
+            cardEl.onclick = () => this.handleCardClick(cardEl);
+            grid.appendChild(cardEl);
+        });
 
-        const loop = (timestamp) => {
-            if (!this.game1Running) return;
+        this.updateMemoryHUD();
+    }
 
-            ctx.clearRect(0, 0, displayW, displayH);
+    handleCardClick(cardEl) {
+        if (!this.canFlip || cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) {
+            return;
+        }
 
-            // Spawn falling keepsakes
-            if (timestamp - lastSpawn > 550) {
-                lastSpawn = timestamp;
-                const isBad = Math.random() < 0.18;
-                this.game1Items.push({
-                    x: Math.random() * (displayW - 40) + 20,
-                    y: -20,
-                    speed: Math.random() * 1.8 + 2.4,
-                    char: isBad ? '⏰' : emojis[Math.floor(Math.random() * emojis.length)],
-                    isBad: isBad,
-                    rot: (Math.random() - 0.5) * 0.2
-                });
-            }
+        if (window.soundManager) window.soundManager.playPop();
+        cardEl.classList.add('flipped');
+        this.flippedCards.push(cardEl);
 
-            // Draw modern glowing basket
-            const basketY = displayH - 42;
-            const bx = this.playerX - this.basketWidth / 2;
+        if (this.flippedCards.length === 2) {
+            this.canFlip = false;
+            const [c1, c2] = this.flippedCards;
 
-            ctx.save();
-            ctx.shadowColor = 'rgba(255, 77, 121, 0.6)';
-            ctx.shadowBlur = 12;
-            ctx.fillStyle = '#ff4d79';
-            ctx.beginPath();
-            ctx.roundRect 
-                ? ctx.roundRect(bx, basketY, this.basketWidth, this.basketHeight, 10)
-                : ctx.rect(bx, basketY, this.basketWidth, this.basketHeight);
-            ctx.fill();
+            if (c1.dataset.pair === c2.dataset.pair) {
+                // Match!
+                setTimeout(() => {
+                    c1.classList.add('matched');
+                    c2.classList.add('matched');
+                    this.matchedPairs++;
+                    if (window.soundManager) window.soundManager.playChime();
+                    this.flippedCards = [];
+                    this.canFlip = true;
+                    this.updateMemoryHUD();
 
-            ctx.strokeStyle = '#ffd166';
-            ctx.lineWidth = 2.5;
-            ctx.stroke();
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 12px Poppins, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.shadowBlur = 0;
-            ctx.fillText('🧺 Catch', this.playerX, basketY + 18);
-            ctx.restore();
-
-            // Draw & update items
-            for (let i = this.game1Items.length - 1; i >= 0; i--) {
-                const it = this.game1Items[i];
-                it.y += it.speed;
-
-                ctx.save();
-                ctx.font = '26px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(it.char, it.x, it.y);
-                ctx.restore();
-
-                // Catch detection
-                if (it.y >= basketY - 10 && it.y <= basketY + this.basketHeight + 10 &&
-                    it.x >= bx - 10 && it.x <= bx + this.basketWidth + 10) {
-                    
-                    if (it.isBad) {
-                        this.game1Score = Math.max(0, this.game1Score - 1);
-                        if (window.soundManager) window.soundManager.playPop();
-                        this.shakeCanvas(canvas);
-                    } else {
-                        this.game1Score++;
-                        if (window.soundManager) window.soundManager.playChime();
-                        if (window.particles) window.particles.burst(cRect.left + it.x, cRect.top + it.y, 18);
+                    if (this.matchedPairs === 3) {
+                        this.finishMemoryGame();
                     }
-                    this.game1Items.splice(i, 1);
-                    this.updateHUD();
-
-                    if (this.game1Score >= this.game1Target) {
-                        this.finishCatchGame(true);
-                        return;
-                    }
-                    continue;
-                }
-
-                if (it.y > displayH + 30) {
-                    this.game1Items.splice(i, 1);
-                }
+                }, 400);
+            } else {
+                // No match, flip back
+                setTimeout(() => {
+                    c1.classList.remove('flipped');
+                    c2.classList.remove('flipped');
+                    this.flippedCards = [];
+                    this.canFlip = true;
+                }, 850);
             }
-
-            this.animId = requestAnimationFrame(loop);
-        };
-
-        this.animId = requestAnimationFrame(loop);
-    }
-
-    shakeCanvas(canvas) {
-        canvas.style.transform = 'translateX(8px)';
-        setTimeout(() => canvas.style.transform = 'translateX(-8px)', 60);
-        setTimeout(() => canvas.style.transform = 'translateX(0)', 120);
-    }
-
-    updateHUD() {
-        const hud = document.getElementById('game1-score');
-        if (hud) hud.innerText = `${this.game1Score} / ${this.game1Target}`;
-    }
-
-    finishCatchGame(won) {
-        this.game1Running = false;
-        cancelAnimationFrame(this.animId);
-        window.removeEventListener('mousemove', this.moveHandler);
-        window.removeEventListener('touchmove', this.touchHandler);
-
-        if (won) {
-            this.key1Unlocked = true;
-            if (window.soundManager) window.soundManager.playFanfare();
-            if (window.particles) window.particles.fireworks();
-
-            const slot = document.getElementById('key-slot-1');
-            if (slot) {
-                slot.classList.add('unlocked');
-                slot.querySelector('.slot-icon').innerText = '🔑';
-                slot.querySelector('.slot-status').innerText = 'UNLOCKED! ✨';
-            }
-
-            setTimeout(() => {
-                document.getElementById('game1-modal').classList.remove('open');
-                if (window.app) window.app.showToast('🎉 Key 1 Granted! Dance reflexes: 10/10!');
-                this.checkVaultReady();
-            }, 800);
         }
     }
 
-    closeCatchGame() {
-        this.game1Running = false;
-        cancelAnimationFrame(this.animId);
-        window.removeEventListener('mousemove', this.moveHandler);
-        window.removeEventListener('touchmove', this.touchHandler);
-        document.getElementById('game1-modal').classList.remove('open');
+    updateMemoryHUD() {
+        const hud = document.getElementById('memory-score');
+        if (hud) hud.innerText = `${this.matchedPairs} / 3 Pairs`;
+    }
+
+    finishMemoryGame() {
+        this.key1Unlocked = true;
+        if (window.soundManager) window.soundManager.playFanfare();
+        if (window.particles) window.particles.fireworks();
+
+        const slot = document.getElementById('key-slot-1');
+        if (slot) {
+            slot.classList.add('unlocked');
+            slot.querySelector('.slot-icon').innerText = '🔑';
+            slot.querySelector('.slot-status').innerText = 'UNLOCKED! ✨';
+        }
+
+        setTimeout(() => {
+            this.closeMemoryGame();
+            if (window.app) window.app.showToast('🎉 Key 1 Granted! Perfect Memory!');
+            this.checkVaultReady();
+        }, 900);
     }
 
     // ==========================================
-    // MINI-GAME 2: SHIMMERING SCRATCH CARD
+    // MINI-GAME 2: BUTTERY-SMOOTH SCRATCH CARD
     // ==========================================
     openScratchModal() {
         const modal = document.getElementById('scratch-modal');
@@ -212,18 +151,21 @@ class GamesEngine {
 
         modal.classList.add('open');
         this.scratchCells.clear();
-        this.initFoil(canvas);
+        this.lastX = null;
+        this.lastY = null;
+        this.initSmoothScratchFoil(canvas);
     }
 
     closeScratchModal() {
-        document.getElementById('scratch-modal').classList.remove('open');
+        const modal = document.getElementById('scratch-modal');
+        if (modal) modal.classList.remove('open');
     }
 
-    initFoil(canvas) {
+    initSmoothScratchFoil(canvas) {
         const ctx = canvas.getContext('2d');
         const dpr = window.devicePixelRatio || 1;
-        const w = 300;
-        const h = 180;
+        const w = 320;
+        const h = 190;
 
         canvas.width = w * dpr;
         canvas.height = h * dpr;
@@ -232,72 +174,103 @@ class GamesEngine {
         canvas.style.opacity = '1';
         ctx.scale(dpr, dpr);
 
-        // Metallic rose-gold foil
+        // Metallic rose-gold foil gradient
         const grad = ctx.createLinearGradient(0, 0, w, h);
-        grad.addColorStop(0, '#d49ba8');
-        grad.addColorStop(0.25, '#f7d6e0');
-        grad.addColorStop(0.5, '#e5a4b8');
-        grad.addColorStop(0.75, '#fad2e1');
-        grad.addColorStop(1, '#c07e93');
+        grad.addColorStop(0, '#d89ea8');
+        grad.addColorStop(0.2, '#fbe0e8');
+        grad.addColorStop(0.4, '#e8a8b8');
+        grad.addColorStop(0.7, '#fadee7');
+        grad.addColorStop(1, '#c78598');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
-        // Sparkle shimmer stars
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-        for (let i = 0; i < 20; i++) {
+        // Gold glitter pattern overlay
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        for (let i = 0; i < 28; i++) {
             ctx.beginPath();
             ctx.arc(Math.random() * w, Math.random() * h, Math.random() * 2 + 1, 0, Math.PI * 2);
             ctx.fill();
         }
 
-        // Text instruction
+        // Instructional text
         ctx.fillStyle = '#611f37';
         ctx.font = 'bold 15px Poppins, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('✨ Scratch here with your finger ✨', w / 2, h / 2);
+        ctx.fillText('✨ Swipe to scratch & reveal ✨', w / 2, h / 2);
 
-        let isScratching = false;
+        let isDown = false;
 
-        const scratchAt = (clientX, clientY) => {
-            if (this.key2Unlocked) return;
+        const getPos = (e) => {
             const rect = canvas.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        };
+
+        const scratchStroke = (currentPos) => {
+            if (this.key2Unlocked) return;
 
             ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath();
-            ctx.arc(x, y, 25, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.lineWidth = 42;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
 
-            // Track coverage using 8x6 grid (immune to file:// security CORS blocks)
-            const col = Math.floor((x / w) * 8);
-            const row = Math.floor((y / h) * 6);
+            ctx.beginPath();
+            if (this.lastX !== null && this.lastY !== null) {
+                ctx.moveTo(this.lastX, this.lastY);
+                ctx.lineTo(currentPos.x, currentPos.y);
+            } else {
+                ctx.arc(currentPos.x, currentPos.y, 21, 0, Math.PI * 2);
+            }
+            ctx.stroke();
+
+            this.lastX = currentPos.x;
+            this.lastY = currentPos.y;
+
+            // Track coverage with smooth grid
+            const col = Math.floor((currentPos.x / w) * 8);
+            const row = Math.floor((currentPos.y / h) * 6);
             if (col >= 0 && col < 8 && row >= 0 && row < 6) {
                 this.scratchCells.add(`${col},${row}`);
-                if (this.scratchCells.size >= this.totalRequiredCells) {
+                if (this.scratchCells.size >= this.scratchThreshold) {
                     this.revealScratchKey();
                 }
             }
         };
 
         canvas.onmousedown = (e) => {
-            isScratching = true;
-            scratchAt(e.clientX, e.clientY);
+            isDown = true;
+            this.lastX = null;
+            this.lastY = null;
+            scratchStroke(getPos(e));
         };
-        window.onmouseup = () => isScratching = false;
+        window.onmouseup = () => {
+            isDown = false;
+            this.lastX = null;
+            this.lastY = null;
+        };
         canvas.onmousemove = (e) => {
-            if (isScratching) scratchAt(e.clientX, e.clientY);
+            if (isDown) scratchStroke(getPos(e));
         };
 
         canvas.ontouchstart = (e) => {
             e.preventDefault();
-            isScratching = true;
-            if (e.touches[0]) scratchAt(e.touches[0].clientX, e.touches[0].clientY);
+            isDown = true;
+            this.lastX = null;
+            this.lastY = null;
+            if (e.touches[0]) scratchStroke(getPos(e));
         };
-        window.ontouchend = () => isScratching = false;
+        window.ontouchend = () => {
+            isDown = false;
+            this.lastX = null;
+            this.lastY = null;
+        };
         canvas.ontouchmove = (e) => {
             e.preventDefault();
-            if (isScratching && e.touches[0]) scratchAt(e.touches[0].clientX, e.touches[0].clientY);
+            if (isDown && e.touches[0]) scratchStroke(getPos(e));
         };
     }
 
@@ -322,7 +295,7 @@ class GamesEngine {
 
         setTimeout(() => {
             this.closeScratchModal();
-            if (window.app) window.app.showToast('🎉 Key 2 Granted! Forever unlocked!');
+            if (window.app) window.app.showToast('🎉 Key 2 Granted! August 20th Forever!');
             this.checkVaultReady();
         }, 900);
     }

@@ -27,30 +27,38 @@ class AppController {
     }
 
     // Screen Transition Engine
-    goToScreen(screenNum) {
+    goToScreen(screenTarget) {
         if (window.soundManager) {
             window.soundManager.playPop();
             window.soundManager.unlockAndPlay();
         }
 
-        const currentEl = document.getElementById(`screen-${this.currentScreen}`);
-        const nextEl = document.getElementById(`screen-${screenNum}`);
+        const currentId = typeof this.currentScreen === 'string' && this.currentScreen.startsWith('screen-') 
+            ? this.currentScreen 
+            : `screen-${this.currentScreen}`;
+            
+        const nextId = typeof screenTarget === 'string' && screenTarget.startsWith('screen-') 
+            ? screenTarget 
+            : `screen-${screenTarget}`;
+
+        const currentEl = document.getElementById(currentId);
+        const nextEl = document.getElementById(nextId);
 
         if (currentEl) {
             currentEl.style.opacity = '0';
-            currentEl.style.transform = 'translateY(-12px)';
+            currentEl.style.transform = 'scale(0.96) translateY(-10px)';
             setTimeout(() => {
                 currentEl.classList.remove('active');
                 if (nextEl) {
                     nextEl.classList.add('active');
                     setTimeout(() => {
                         nextEl.style.opacity = '1';
-                        nextEl.style.transform = 'translateY(0)';
+                        nextEl.style.transform = 'scale(1) translateY(0)';
                     }, 20);
                 }
-                this.currentScreen = screenNum;
+                this.currentScreen = screenTarget;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 300);
+            }, 280);
         }
     }
 
@@ -111,7 +119,7 @@ class AppController {
         }, 2600);
     }
 
-    // Screen 2 Choice Alerts
+    // Screen 4 Choice Alerts
     handleForgivenessChoice(choice) {
         if (window.soundManager) window.soundManager.unlockAndPlay();
         if (choice === 'forgiven') {
@@ -119,7 +127,7 @@ class AppController {
         } else {
             this.showToast("Fair trial! Initiating Ritvik's Emergency Boyfriend Compensation Protocol v2.0... 💸");
         }
-        setTimeout(() => this.goToScreen(3), 1100);
+        setTimeout(() => this.goToScreen(5), 1100);
     }
 
     // Terms & Conditions Checklist
@@ -133,7 +141,7 @@ class AppController {
         });
     }
 
-    // Screen 4: Open The Love Vault
+    // Screen 6: Open The Love Vault
     unlockLoveVault() {
         if (!window.gamesEngine.key1Unlocked || !window.gamesEngine.key2Unlocked) {
             this.showToast("🔒 Complete both games above to collect Key 1 & Key 2!");
@@ -151,7 +159,7 @@ class AppController {
         }
 
         setTimeout(() => {
-            this.goToScreen(5); // Memory Lane
+            this.goToScreen(7); // Memory Lane
         }, 1000);
     }
 
