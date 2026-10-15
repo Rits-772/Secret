@@ -571,18 +571,18 @@ body {
     color: var(--primary);
 }
 
-/* Game 1: Memory Match Cards */
+/* Game 1: Memory Match Cards (3x4 Layout) */
 .memory-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 16px auto;
-    max-width: 330px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 14px auto;
+    max-width: 360px;
     perspective: 800px;
 }
 
 .mem-card {
-    height: 95px;
+    height: 82px;
     cursor: pointer;
     perspective: 800px;
 }

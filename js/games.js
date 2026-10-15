@@ -7,17 +7,18 @@ class GamesEngine {
         this.key1Unlocked = false;
         this.key2Unlocked = false;
 
-        // Memory Match state
-        this.memoryCards = [
-            { id: 1, pair: 'A', icon: '💃', title: 'Dance Queen' },
-            { id: 2, pair: 'A', icon: '💃', title: 'Dance Queen' },
-            { id: 3, pair: 'B', icon: '☕', title: 'Boba Date' },
-            { id: 4, pair: 'B', icon: '☕', title: 'Boba Date' },
-            { id: 5, pair: 'C', icon: '💖', title: 'Forever Us' },
-            { id: 6, pair: 'C', icon: '💖', title: 'Forever Us' },
+        // 3x4 Memory Match (6 pairs = 12 cards)
+        this.cardTemplates = [
+            { pair: 'A', icon: '💃', title: 'Dance Queen' },
+            { pair: 'B', icon: '☕', title: 'Boba Date' },
+            { pair: 'C', icon: '💖', title: 'Forever Us' },
+            { pair: 'D', icon: '🌱', title: 'School Days' },
+            { pair: 'E', icon: '🎂', title: 'Aug 20th' },
+            { pair: 'F', icon: '🧸', title: 'Forehead Kiss' }
         ];
         this.flippedCards = [];
         this.matchedPairs = 0;
+        this.targetPairs = 6;
         this.canFlip = true;
 
         // Scratch card state
@@ -28,7 +29,7 @@ class GamesEngine {
     }
 
     // ==========================================
-    // MINI-GAME 1: LOVE MEMORY MATCH (Replaced Emoji Catcher)
+    // MINI-GAME 1: LOVE MEMORY MATCH (3x4 Grid, 12 Cards)
     // ==========================================
     startMemoryGame() {
         const modal = document.getElementById('game1-modal');
@@ -51,10 +52,20 @@ class GamesEngine {
         if (!grid) return;
         grid.innerHTML = '';
 
-        // Shuffle cards
-        const shuffled = [...this.memoryCards].sort(() => Math.random() - 0.5);
+        // Generate 12 cards (6 pairs duplicated)
+        const deck = [];
+        this.cardTemplates.forEach(t => {
+            deck.push({ ...t, uid: Math.random() });
+            deck.push({ ...t, uid: Math.random() });
+        });
 
-        shuffled.forEach((card, index) => {
+        // Fisher-Yates authentic random shuffle
+        for (let i = deck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [deck[i], deck[j]] = [deck[j], deck[i]];
+        }
+
+        deck.forEach((card, index) => {
             const cardEl = document.createElement('div');
             cardEl.className = 'mem-card';
             cardEl.dataset.pair = card.pair;
@@ -101,10 +112,10 @@ class GamesEngine {
                     this.canFlip = true;
                     this.updateMemoryHUD();
 
-                    if (this.matchedPairs === 3) {
+                    if (this.matchedPairs === this.targetPairs) {
                         this.finishMemoryGame();
                     }
-                }, 400);
+                }, 380);
             } else {
                 // No match, flip back
                 setTimeout(() => {
@@ -112,14 +123,14 @@ class GamesEngine {
                     c2.classList.remove('flipped');
                     this.flippedCards = [];
                     this.canFlip = true;
-                }, 850);
+                }, 750);
             }
         }
     }
 
     updateMemoryHUD() {
         const hud = document.getElementById('memory-score');
-        if (hud) hud.innerText = `${this.matchedPairs} / 3 Pairs`;
+        if (hud) hud.innerText = `${this.matchedPairs} / ${this.targetPairs} Pairs`;
     }
 
     finishMemoryGame() {
